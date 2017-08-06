@@ -1,0 +1,15 @@
+{
+
+;; CONFIG ENTRIES:
+
+hologram.core/aurora-api-key ""
+
+hologram.core/aurora-url "http://192.168.1.100:16021"
+
+hologram.core/aws-client-id ""
+
+hologram.core/aws-client-secret ""
+
+hologram.core/sqs-queue-url "https://sqs.us-west-2.amazonaws.com/..."
+
+}
