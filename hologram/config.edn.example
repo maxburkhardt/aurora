@@ -2,9 +2,9 @@
 
 ;; CONFIG ENTRIES:
 
-hologram.core/aurora-api-key ""
+hologram.util/aurora-api-key ""
 
-hologram.core/aurora-url "http://192.168.1.100:16021"
+hologram.util/aurora-url "http://192.168.1.100:16021"
 
 hologram.core/aws-client-id ""
 
