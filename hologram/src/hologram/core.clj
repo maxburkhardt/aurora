@@ -5,7 +5,8 @@
             [cemerick.bandalore :as sqs]
             [outpace.config :refer [defconfig]])
   (:use [hologram.geometry]
-        [hologram.util]))
+        [hologram.util]
+        [hologram.animations]))
 
 ;; Set up configuration variables
 (defconfig ^:required aws-client-id)
@@ -20,20 +21,9 @@
 
 (defn brand [] (set-effect "Brand Descend"))
 
-(defn glimpse [{animType :type palette :palette}]
+(defn glimpse [animType palette]
   (req client/put "effects"
-       {:write {
-                :command :display
-                :animType animType
-                :colorType :HSB
-                :palette palette
-                :transTime {:maxValue 10 :minValue 10}
-                :delayTime {:maxValue 10 :minValue 10}
-                :explodeFactor 0.5
-                :direction :outwards
-                :loop false
-               }
-       }))
+       {:write (get-display-command animType palette)}))
 
 (defn static-glimpse [animData]
   (req client/put "effects"
@@ -52,7 +42,7 @@
       (let [event (fetch-event)]
         (if (not-empty event)
           (do
-            (glimpse event)
+            (glimpse (:type event) (:palette event))
             (Thread/sleep 5000)
             (brand)
           ))))
