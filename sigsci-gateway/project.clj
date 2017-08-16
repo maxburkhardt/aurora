@@ -1,4 +1,4 @@
-(defproject sigsci-gateway "0.1.0-SNAPSHOT"
+(defproject sigsci-gateway "0.1.1"
   :description "AWS Lambda gateway to turn SigSci webhooks into aurora colors"
   :url "https://maxb.fm"
   :license {:name "Eclipse Public License"

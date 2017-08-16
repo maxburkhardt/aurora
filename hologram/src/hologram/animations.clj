@@ -61,9 +61,9 @@
      :loop false
     }
     ((case animType
-    :explode get-explode
-    :flow get-flow
-    :wheel get-wheel
-    :highlight get-highlight
-    :random get-random
-    :fade get-fade) palette)))
+    "explode" get-explode
+    "flow" get-flow
+    "wheel" get-wheel
+    "highlight" get-highlight
+    "random" get-random
+    "fade" get-fade) palette)))

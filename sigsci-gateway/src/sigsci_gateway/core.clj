@@ -16,7 +16,8 @@
   (sqs/send
     client
     q
-    (str (explode
+    (generate-string
+      (explode
            [
             {
              :hue 0

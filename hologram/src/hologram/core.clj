@@ -16,7 +16,8 @@
 (def client (sqs/create-client aws-client-id aws-client-secret))
 
 (defn fetch-event []
-  (first (map (sqs/deleting-consumer client (comp read-string :body))
+  (first (map (sqs/deleting-consumer client
+                                     (comp (fn [payload] (parse-string payload true)) :body))
               (sqs/receive client sqs-queue-url :limit 1 :wait-time-seconds 20))))
 
 (defn brand [] (set-effect "Brand Descend"))
