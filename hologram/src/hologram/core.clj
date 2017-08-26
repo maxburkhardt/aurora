@@ -12,6 +12,7 @@
 (defconfig ^:required aws-client-id)
 (defconfig ^:required aws-client-secret)
 (defconfig ^:required sqs-queue-url)
+(defconfig ^:required default-effect)
 
 (def client (sqs/create-client aws-client-id aws-client-secret))
 
@@ -20,7 +21,7 @@
                                      (comp (fn [payload] (parse-string payload true)) :body))
               (sqs/receive client sqs-queue-url :limit 1 :wait-time-seconds 20))))
 
-(defn brand [] (set-effect "Brand Descend"))
+(defn back-to-normal [] (set-effect default-effect))
 
 (defn glimpse [animType palette]
   (req client/put "effects"
@@ -45,7 +46,7 @@
           (do
             (glimpse (:type event) (:palette event))
             (Thread/sleep 5000)
-            (brand)
+            (back-to-normal)
           ))))
   )
 )

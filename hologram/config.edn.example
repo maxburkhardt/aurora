@@ -12,4 +12,6 @@ hologram.core/aws-client-secret ""
 
 hologram.core/sqs-queue-url "https://sqs.us-west-2.amazonaws.com/..."
 
+hologram.core/default-effect "Northern Lights"
+
 }
