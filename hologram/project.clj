@@ -1,6 +1,6 @@
-(defproject hologram "0.1.3"
+(defproject hologram "0.1.4"
   :description "Consumes Aurora animation data from SQS and sends it to a panel array"
-  :url "http://example.com/FIXME"
+  :url "https://maxb.fm"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.8.0"]
