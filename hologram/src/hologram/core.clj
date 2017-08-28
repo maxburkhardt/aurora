@@ -27,6 +27,10 @@
   (req client/put "effects"
        {:write (get-display-command animType palette)}))
 
+(defn handle-operation [operation-name]
+  (case operation-name
+    "power-toggle" (power (not (get-power-state)))))
+
 (defn static-glimpse [animData]
   (req client/put "effects"
        {:write {
@@ -43,10 +47,13 @@
     (while true
       (let [event (fetch-event)]
         (if (not-empty event)
-          (do
-            (glimpse (:type event) (:palette event))
-            (Thread/sleep 5000)
-            (back-to-normal)
-          ))))
-  )
-)
+          (if (contains? event :operation)
+            (handle-operation (:operation event))
+            (if (contains? event :saved-effect)
+              (set-effect (:saved-effect event))
+              ;; else, some raw animation data has been supplied
+              (do
+                (glimpse (:type event) (:palette event))
+                (Thread/sleep 5000)
+                (back-to-normal)
+              ))))))))

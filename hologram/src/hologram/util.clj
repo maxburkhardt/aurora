@@ -15,6 +15,11 @@
         {:form-params body
          :content-type :json}))
 
+(defn get-power-state
+  "Return a boolean representing whether the power is on"
+  []
+  (:value (:on (:state (parse-string (:body (req client/get "")) true)))))
+
 (defn power
   "Turn the Aurora on or off by passing a truthy or falsey value"
   [state]
