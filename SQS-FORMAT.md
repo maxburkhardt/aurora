@@ -20,7 +20,7 @@ is as follows:
   * `highlight`: Randomly set panels to the palette colors, weighted with a probability
   * `random`: Randomly set panels to the palette colors
   * `fade`: Cycle through the palette, fading all panels between colors at once
-* `palette`: a list of JavaScript objects containing HSV colors.
+* `palette`: a list of JavaScript objects containing HSB colors.
 
 ### Examples
 Setting a explosion that uses white, then red, then white:
@@ -33,9 +33,9 @@ Setting a explosion that uses white, then red, then white:
             "saturation": 0
         },
         {
-            "brightness": 66,
-            "hue": 265,
-            "saturation": 68
+            "brightness": 100,
+            "hue": 0,
+            "saturation": 100
         },
         {
             "brightness": 100,
@@ -53,3 +53,6 @@ Toggling the power state:
 	  "operation": "power-toggle"
 }
 ```
+
+As soon as one of these events is available on the SQS queue, it will be pulled
+off by Hologram and sent to the Aurora to display.
