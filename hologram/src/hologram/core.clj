@@ -21,11 +21,9 @@
                                      (comp (fn [payload] (parse-string payload true)) :body))
               (sqs/receive client sqs-queue-url :limit 1 :wait-time-seconds 20))))
 
-(defn back-to-normal [] (set-effect default-effect))
-
-(defn glimpse [animType palette]
+(defn glimpse [animType palette direction]
   (req client/put "effects"
-       {:write (get-display-command animType palette)}))
+       {:write (get-display-command animType palette direction)}))
 
 (defn handle-operation [operation-name]
   (case operation-name
@@ -52,8 +50,10 @@
             (if (contains? event :saved-effect)
               (set-effect (:saved-effect event))
               ;; else, some raw animation data has been supplied
-              (do
-                (glimpse (:type event) (:palette event))
+              (let [prior-state (get-state-to-restore)]
+                (glimpse (:type event) (:palette event) (:direction event))
                 (Thread/sleep 5000)
-                (back-to-normal)
+                (if (and (:power prior-state) (not (nil? (:effect prior-state))))
+                  (set-effect (:effect prior-state))
+                  (power false))
               ))))))))

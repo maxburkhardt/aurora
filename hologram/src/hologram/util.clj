@@ -35,3 +35,18 @@
   "Generate a static animation string, given details for each panel."
   [color-fn panels]
   (str (count panels) " " (string/join " " (map color-fn panels))))
+
+(defn effect-set?
+  "Returns true if an effect has been set, false if an internal mode is being used (Static or Dynamic)"
+  [effect-string]
+  (not (and
+    (= \* (get effect-string 0))
+    (= \* (get effect-string (- (count effect-string) 1))))))
+
+(defn get-state-to-restore
+  "Get the power and effect state of the aurora for restoration after a glimpse."
+  []
+  (let [full-state (parse-string (:body (req client/get "/")))
+        effect-string (get-in full-state ["effects" "select"])]
+    {:power (get-in full-state ["state" "on" "value"])
+     :effect (if (effect-set? effect-string) effect-string nil)}))

@@ -1,34 +1,34 @@
 (ns hologram.animations)
 
 ;; Wipe a color across the aurora
-(defn get-flow [palette]
+(defn get-flow [palette direction]
   {
    :animType :flow
    :palette palette
    :flowFactor 2.5
-   :direction :down
+   :direction (if (nil? direction) :down direction)
    })
 
 ;; Color emanating from the center of the Aurora
-(defn get-explode [palette]
+(defn get-explode [palette direction]
   {
    :animType :explode
    :palette palette
    :explodeFactor 0.5
-   :direction :outwards
+   :direction (if (nil? direction) :outwards direction)
   })
 
 ;; Bars of color moving across the Aurora
-(defn get-wheel [palette]
+(defn get-wheel [palette direction]
   {
    :animType :wheel
    :palette palette
    :windowSize 2
-   :direction :right
+   :direction (if (nil? direction) :right direction)
    })
 
 ;; Randomly set panels to the palette colors, weighted with a probability
-(defn get-highlight [palette]
+(defn get-highlight [palette direction]
   {
    :animType :highlight
    :palette (map (fn [color] (merge color {:probability 80})) palette)
@@ -36,7 +36,7 @@
    })
 
 ;; Randomly set panels to the palette colors
-(defn get-random [palette]
+(defn get-random [palette direction]
   {
    :animType :random
    :palette palette
@@ -44,14 +44,14 @@
    })
 
 ;; Cycle through the palette, fading all panels between colors at once
-(defn get-fade [palette]
+(defn get-fade [palette direction]
   {
    :animType :fade
    :palette palette
    :brightnessRange {:maxValue 100 :minValue 25}
    })
 
-(defn get-display-command [animType palette]
+(defn get-display-command [animType palette direction]
   (merge
     {
      :command :display
@@ -66,4 +66,4 @@
     "wheel" get-wheel
     "highlight" get-highlight
     "random" get-random
-    "fade" get-fade) palette)))
+    "fade" get-fade) palette direction)))

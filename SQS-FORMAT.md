@@ -21,6 +21,9 @@ is as follows:
   * `random`: Randomly set panels to the palette colors
   * `fade`: Cycle through the palette, fading all panels between colors at once
 * `palette`: a list of JavaScript objects containing HSB colors.
+* `direction`: valid for some animation types. Values are `left`, `right`,
+  `up`, `down` for `flow` and `wheel`. You can also specify `outwards` for
+  `explode` but the other options are unclear.
 
 ### Examples
 Setting a explosion that uses white, then red, then white:
