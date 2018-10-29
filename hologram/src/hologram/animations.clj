@@ -1,4 +1,6 @@
-(ns hologram.animations)
+(ns hologram.animations
+  (:use [hologram.geometry]
+        [hologram.util]))
 
 ;; Wipe a color across the aurora
 (defn get-flow [palette direction]
@@ -51,19 +53,29 @@
    :brightnessRange {:maxValue 100 :minValue 25}
    })
 
-(defn get-display-command [animType palette direction]
+(defn get-display-command [layout animType palette direction values]
   (merge
     {
      :command :display
-     :colorType :HSB
-     :transTime {:maxValue 10 :minValue 10}
-     :delayTime {:maxValue 10 :minValue 10}
      :loop false
-    }
-    ((case animType
-    "explode" get-explode
-    "flow" get-flow
-    "wheel" get-wheel
-    "highlight" get-highlight
-    "random" get-random
-    "fade" get-fade) palette direction)))
+     }
+    (case animType
+      ;; Custom animations
+      "progress-horizontal" {:animType :static :animData
+                             (progress layout values "x" (hsb-to-rgb (first palette)))}
+      "progress-vertical" {:animType :static :animData
+                             (progress layout values "y" (hsb-to-rgb (first palette)))}
+      ;; All the builtin animation types
+      (merge
+        {
+         :colorType :HSB
+         :transTime {:maxValue 10 :minValue 10}
+         :delayTime {:maxValue 10 :minValue 10}
+        }
+        ((case animType
+        "explode" get-explode
+        "flow" get-flow
+        "wheel" get-wheel
+        "highlight" get-highlight
+        "random" get-random
+        "fade" get-fade) palette direction)))))

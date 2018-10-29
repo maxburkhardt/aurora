@@ -58,3 +58,24 @@
                                   )
                                 " 0 20"))
     layout))
+
+(defn progress
+  "Produce an animation string for a progress bar that represents a given
+  percentage. Takes a direction ('x' or 'y') and a color (RGB array)"
+  [layout pct direction color]
+  (generate-anim
+                 (fn [[panel-id [x y]]] (let [
+                                              [_ [x-min _]] (last (x-desc layout))
+                                              [_ [x-max _]] (first (x-desc layout))
+                                              [_ [_ y-min]] (last (y-desc layout))
+                                              [_ [_ y-max]] (first (y-desc layout))
+                                              [r g b] color
+                                              x-activated? (> (/ (- x x-min) (- x-max x-min)) pct)
+                                              y-activated? (> (/ (- y y-min) (- y-max y-min)) pct)
+                                              ]
+                                          (cond
+                                            (and (= direction "x") x-activated?) (str panel-id " 1 0 0 0 0 20")
+                                            (and (= direction "y") y-activated?) (str panel-id " 1 0 0 0 0 20")
+                                            :else (str panel-id " 1 " r " " g " " b " 0 20"))))
+                 layout))
+

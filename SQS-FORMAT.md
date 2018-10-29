@@ -20,6 +20,11 @@ is as follows:
   * `highlight`: Randomly set panels to the palette colors, weighted with a probability
   * `random`: Randomly set panels to the palette colors
   * `fade`: Cycle through the palette, fading all panels between colors at once
+  * `progress-horizontal`: Horizontal progress bar. Must also supply a `value`
+    key with a decimal value representing the fullness of the bar.
+  * `progress-vertical`: Vertical progress bar. Must also supply a `value`
+    key with a decimal value representing the fullness of the bar.
+* `value`: Numeric values used in some effects
 * `palette`: a list of JavaScript objects containing HSB colors.
 * `direction`: valid for some animation types. Values are `left`, `right`,
   `up`, `down` for `flow` and `wheel`. You can also specify `outwards` for

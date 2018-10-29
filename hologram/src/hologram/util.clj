@@ -2,6 +2,7 @@
   (:require [clj-http.client :as client]
             [cheshire.core :refer :all]
             [clojure.string :as string]
+            [com.evocomputing.colors :refer :all]
             [outpace.config :refer [defconfig]]))
 
 ;; Set up configuration variables
@@ -50,3 +51,9 @@
         effect-string (get-in full-state ["effects" "select"])]
     {:power (get-in full-state ["state" "on" "value"])
      :effect (if (effect-set? effect-string) effect-string nil)}))
+
+(defn hsb-to-rgb
+  "Convert an HSB map into an RGB array that the static effect generator can take."
+  [hsb]
+  (let [{h :hue s :saturation l :brightness} hsb]
+    (take 3 (:rgba (create-color {:h h :s s :l l})))))
