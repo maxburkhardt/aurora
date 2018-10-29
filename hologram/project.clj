@@ -1,4 +1,4 @@
-(defproject hologram "0.1.5"
+(defproject hologram "0.1.6"
   :description "Consumes Aurora animation data from SQS and sends it to a panel array"
   :url "https://maxb.fm"
   :license {:name "Eclipse Public License"
