@@ -52,8 +52,19 @@
     {:power (get-in full-state ["state" "on" "value"])
      :effect (if (effect-set? effect-string) effect-string nil)}))
 
+;; Unfortunately, most hue effects take HSB colors
+;; However, custom effects take RGB colors
+;; And our color library takes HSL colors
+;; So we convert from HSB to HSL and then to RGB
 (defn hsb-to-rgb
-  "Convert an HSB map into an RGB array that the static effect generator can take."
+  "Convert an HSB map into an RGB array that the static effect generator can
+  take. The input map should have the keys :hue (0-360), :saturation (0-100),
+  and :brightness (0-100)."
   [hsb]
-  (let [{h :hue s :saturation l :brightness} hsb]
-    (take 3 (:rgba (create-color {:h h :s s :l l})))))
+  (let [{h :hue s :saturation b :brightness} hsb
+        b-dec (/ b 100.0)
+        s-dec (/ s 100.0)
+        l (/ (* b-dec (- 2 s-dec)) 2)
+        s-hsl (/ (* b-dec s-dec) (- 1 (Math/abs (- (* 2 l) 1))))
+        ]
+    (take 3 (:rgba (create-color {:h h :s (* s-hsl 100) :l (* l 100)})))))
